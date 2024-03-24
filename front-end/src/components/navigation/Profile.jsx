@@ -15,9 +15,14 @@ function Profile() {
     };
 
     return (
-        <div className="form-container">
+        <div className="profile-container">
             <h1>Your Profile</h1>
-            <Button variant="danger" onClick={handleLogout}>Logout</Button>
+            <div className="profile-actions">
+                {/* Other account-related actions can be placed here */}
+                <Button variant="primary">Account Settings</Button>
+                <Button variant="info">Change Password</Button>
+                <Button variant="danger" onClick={handleLogout}>Logout</Button>
+            </div>
         </div>
     );
 }
