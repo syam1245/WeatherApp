@@ -16,10 +16,27 @@ dotenv.config();
 const app = express();
 
 app.use(compression());
-app.use(helmet());
+
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        connectSrc: [
+          "wss://wft-geo-db.p.rapidapi.com",
+          "https://wft-geo-db.p.rapidapi.com",
+          "https://api.openweathermap.org",
+          "https://weather-app-ackf.onrender.com/",
+          "http://localhost:5000",
+        ],
+      },
+    },
+  })
+);
 
 // Static files serving
 app.use(express.static(path.join(__dirname, "front-end", "build")));
@@ -65,7 +82,7 @@ app.get("/api/profile", async (req, res, next) => {
 
 // Token validation endpoint
 app.get("/api/validate-token", (req, res) => {
-  const token = req.headers.authorization?.split(' ')[1]; // Get the token from the header
+  const token = req.headers.authorization?.split(" ")[1]; // Get the token from the header
   if (!token) {
     return res.status(401).send("Unauthorized");
   }
