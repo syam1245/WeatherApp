@@ -1,14 +1,14 @@
-
 const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const session = require("express-session");
-const MongoStore = require("connect-mongo")(session);
+const MongoStore = require("connect-mongo");
 const helmet = require("helmet");
 const routes = require("./routes");
 const cors = require("cors");
 const path = require("path");
 const compression = require("compression");
+const jwt = require("jsonwebtoken");
 const User = require("./model");
 
 dotenv.config();
@@ -25,7 +25,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "front-end", "build")));
 
 mongoose
-  .connect(process.env.mongo_URI, {
+  .connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -41,7 +41,7 @@ app.use(
     secret: process.env.JWT_SECRET,
     resave: false,
     saveUninitialized: false,
-    store: new MongoStore({ mongooseConnection: mongoose.connection }),
+    store: MongoStore.create({ mongoUrl: process.env.MONGO_URI }),
     cookie: { maxAge: 1000 * 60 * 60 * 1 }, // 1 hour
   })
 );
@@ -60,6 +60,20 @@ app.get("/api/profile", async (req, res, next) => {
     res.status(200).json({ username: user.username, email: user.email });
   } catch (error) {
     next(error);
+  }
+});
+
+// Token validation endpoint
+app.get("/api/validate-token", (req, res) => {
+  const token = req.headers.authorization?.split(" ")[1]; 
+  if (!token) {
+    return res.status(401).send("Unauthorized");
+  }
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    res.status(200).send(decoded);
+  } catch (error) {
+    res.status(401).send("Unauthorized");
   }
 });
 
