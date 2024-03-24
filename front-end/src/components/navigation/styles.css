@@ -154,3 +154,7 @@ body {
     align-items: center;
     min-height: 70vh;
 }
+
+.profile-action {
+    margin-bottom: 10px; /* Adjust as needed for spacing between actions */
+}
