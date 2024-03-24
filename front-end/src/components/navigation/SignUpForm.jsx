@@ -9,7 +9,7 @@ function SignUpForm() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-    const [successMessage, setSuccessMessage] = useState(''); // New state for success message
+    const [successMessage, setSuccessMessage] = useState(''); 
 
     const navigate = useNavigate();
 
@@ -67,7 +67,7 @@ function SignUpForm() {
                     />
                 </Form.Group>
                 {error && <Alert variant="danger">{error}</Alert>}
-                {successMessage && <Alert variant="success">{successMessage}</Alert>} {/* Display success message */}
+                {successMessage && <Alert variant="success">{successMessage}</Alert>} 
                 <Button variant="primary" type="submit">
                     Sign up
                 </Button>

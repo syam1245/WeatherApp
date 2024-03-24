@@ -36,7 +36,7 @@ function SignIn() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // This could be used for logging errors or handling them differently in the future
+
     if (error) {
       console.error(error);
     }

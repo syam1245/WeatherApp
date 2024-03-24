@@ -1,4 +1,4 @@
-// Import necessary modules
+
 const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
@@ -79,7 +79,7 @@ app.get("*", (req, res) => {
   );
 });
 
-// Error handling middleware
+
 app.use((err, req, res, next) => {
   console.error("Unexpected error:", err);
   res.status(err.status || 500).json({
