@@ -1,4 +1,3 @@
-
 const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
@@ -78,7 +77,6 @@ app.get("*", (req, res) => {
     }
   );
 });
-
 
 app.use((err, req, res, next) => {
   console.error("Unexpected error:", err);

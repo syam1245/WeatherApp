@@ -15,11 +15,11 @@ function App() {
     try {
       const weatherResponse = await fetch(
         `${WEATHER_API_URL}/weather?lat=${lat}&lon=${lon}&appid=${WEATHER_API_KEY}&units=metric`
-      ).then(res => res.json());
+      ).then((res) => res.json());
 
       const forecastResponse = await fetch(
         `${WEATHER_API_URL}/forecast?lat=${lat}&lon=${lon}&appid=${WEATHER_API_KEY}&units=metric`
-      ).then(res => res.json());
+      ).then((res) => res.json());
 
       setCurrentWeather({ city: searchData.label, ...weatherResponse });
       setForecast({ city: searchData.label, ...forecastResponse });

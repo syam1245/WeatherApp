@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { Alert, Button, Form } from 'react-bootstrap';
-import { Link, useNavigate } from 'react-router-dom';
-import './styles.css';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import { Alert, Button, Form } from "react-bootstrap";
+import { Link, useNavigate } from "react-router-dom";
+import "./styles.css";
+import axios from "axios";
 
 const useFormInput = (initialValue) => {
   const [value, setValue] = useState(initialValue);
@@ -20,23 +20,17 @@ const useFormInput = (initialValue) => {
 const FormInput = ({ label, type, placeholder, ...props }) => (
   <Form.Group className="mb-3">
     <Form.Label>{label}</Form.Label>
-    <Form.Control
-      type={type}
-      placeholder={placeholder}
-      {...props}
-      required
-    />
+    <Form.Control type={type} placeholder={placeholder} {...props} required />
   </Form.Group>
 );
 
 function SignIn() {
-  const email = useFormInput('');
-  const password = useFormInput('');
-  const [error, setError] = useState('');
+  const email = useFormInput("");
+  const password = useFormInput("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
-
     if (error) {
       console.error(error);
     }
@@ -45,12 +39,15 @@ function SignIn() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('https://weather-app-ackf.onrender.com/api/login', {
-        email: email.value,
-        password: password.value,
-      });
+      const response = await axios.post(
+        "https://weather-app-ackf.onrender.com/api/login",
+        {
+          email: email.value,
+          password: password.value,
+        }
+      );
       if (response.status === 200) {
-        navigate('/profile');
+        navigate("/profile");
       }
     } catch (err) {
       setError(err.response.data.message);

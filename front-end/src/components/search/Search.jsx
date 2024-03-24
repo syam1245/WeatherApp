@@ -14,7 +14,7 @@ const fetchCities = async (inputValue) => {
       label: `${city.name}, ${city.countryCode}`,
     }));
   } catch (error) {
-    console.error('Error fetching cities:', error);
+    console.error("Error fetching cities:", error);
     return [];
   }
 };
@@ -27,7 +27,7 @@ const Search = ({ onSearchChange }) => {
       const options = await fetchCities(inputValue);
       return { options };
     } catch (error) {
-      console.error('Error loading options:', error);
+      console.error("Error loading options:", error);
       return { options: [] };
     }
   }, []);
