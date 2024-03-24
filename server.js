@@ -20,6 +20,23 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        connectSrc: [
+          "wss://wft-geo-db.p.rapidapi.com",
+          "https://wft-geo-db.p.rapidapi.com",
+          "https://api.openweathermap.org",
+          "https://weather-app-zr2a.onrender.com/",
+          "http://localhost:5000",
+        ],
+      },
+    },
+  })
+);
+
 // Static files serving
 app.use(express.static(path.join(__dirname, "front-end", "build")));
 
