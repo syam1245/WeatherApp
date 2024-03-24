@@ -7,12 +7,23 @@ function Profile() {
   const [userData, setUserData] = useState(null);
 
   useEffect(() => {
+    const token = localStorage.getItem('token'); // Retrieve the token from local storage
+    if (!token) {
+      window.location.href = "/login"; // Redirect to login if no token
+      return;
+    }
+
     const fetchUserData = async () => {
       try {
-        const response = await axios.get("/api/profile");
+        const response = await axios.get("/api/profile", {
+          headers: {
+            'Authorization': `Bearer ${token}` // Include the token in the request headers
+          }
+        });
         setUserData(response.data);
       } catch (error) {
         console.error("Error fetching user data:", error);
+        window.location.href = "/login"; // Redirect to login on error
       }
     };
 
@@ -20,9 +31,8 @@ function Profile() {
   }, []);
 
   const handleLogout = () => {
-    sessionStorage.clear();
-    localStorage.clear();
-    window.location.href = "/login";
+    localStorage.removeItem('token'); // Clear the token from local storage
+    window.location.href = "/login"; // Redirect to login
   };
 
   return (
@@ -38,7 +48,6 @@ function Profile() {
         <div className="profile-action">
           <Button variant="primary">Account Settings</Button>
         </div>
-
         <div className="profile-action">
           <Button variant="danger" onClick={handleLogout}>
             Logout
