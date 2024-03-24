@@ -2,7 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const session = require("express-session");
-const MongoStore = require("connect-mongo");
+const MongoStore = require("connect-mongo")(session); // Correct import
 const helmet = require("helmet");
 const routes = require("./routes");
 const cors = require("cors");
@@ -41,7 +41,7 @@ app.use(
     secret: process.env.JWT_SECRET,
     resave: false,
     saveUninitialized: false,
-    store: MongoStore.create({ mongoUrl: process.env.MONGO_URI }),
+    store: new MongoStore({ mongooseConnection: mongoose.connection }), // Initialize MongoStore correctly
     cookie: { maxAge: 1000 * 60 * 60 * 1 }, // 1 hour
   })
 );
@@ -65,7 +65,7 @@ app.get("/api/profile", async (req, res, next) => {
 
 // Token validation endpoint
 app.get("/api/validate-token", (req, res) => {
-  const token = req.headers.authorization?.split(" ")[1]; 
+  const token = req.headers.authorization?.split(' ')[1]; // Get the token from the header
   if (!token) {
     return res.status(401).send("Unauthorized");
   }
