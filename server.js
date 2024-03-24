@@ -1,3 +1,4 @@
+
 const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
@@ -8,6 +9,7 @@ const routes = require("./routes");
 const cors = require("cors");
 const path = require("path");
 const compression = require("compression");
+const User = require("./model");
 
 dotenv.config();
 
@@ -19,25 +21,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(
-  helmet({
-    contentSecurityPolicy: {
-      directives: {
-        defaultSrc: ["'self'"],
-        connectSrc: [
-          "wss://wft-geo-db.p.rapidapi.com",
-          "https://wft-geo-db.p.rapidapi.com",
-          "https://api.openweathermap.org",
-          "http://localhost:5000",
-          "https://weather-app-zr2a.onrender.com",
-          "https://weather-app-ackf.onrender.com",
-        ],
-      },
-    },
-  })
-);
-
-// Serve static files from the React build folder
+// Static files serving
 app.use(express.static(path.join(__dirname, "front-end", "build")));
 
 mongoose
@@ -63,6 +47,21 @@ app.use(
 );
 
 app.use("/api", routes);
+
+app.get("/api/profile", async (req, res, next) => {
+  try {
+    if (!req.session.userId) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+    const user = await User.findById(req.session.userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json({ username: user.username, email: user.email });
+  } catch (error) {
+    next(error);
+  }
+});
 
 // Serve the React app
 app.get("*", (req, res) => {
