@@ -1,28 +1,18 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { Button } from "react-bootstrap";
+import axios from "axios";
+import "./styles.css";
 
 function Profile() {
   const [userData, setUserData] = useState(null);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      window.location.href = "/login";
-      return;
-    }
-
     const fetchUserData = async () => {
       try {
-        const response = await axios.get("/api/profile", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await axios.get("/api/profile");
         setUserData(response.data);
       } catch (error) {
         console.error("Error fetching user data:", error);
-        window.location.href = "/login";
       }
     };
 
@@ -30,7 +20,8 @@ function Profile() {
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    sessionStorage.clear();
+    localStorage.clear();
     window.location.href = "/login";
   };
 
@@ -47,6 +38,7 @@ function Profile() {
         <div className="profile-action">
           <Button variant="primary">Account Settings</Button>
         </div>
+
         <div className="profile-action">
           <Button variant="danger" onClick={handleLogout}>
             Logout

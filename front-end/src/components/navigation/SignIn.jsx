@@ -1,6 +1,8 @@
+
 import React, { useState, useEffect } from "react";
 import { Alert, Button, Form } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
+import "./styles.css";
 import axios from "axios";
 
 const useFormInput = (initialValue) => {
@@ -38,12 +40,14 @@ function SignIn() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("/api/login", {
-        email: email.value,
-        password: password.value,
-      });
+      const response = await axios.post(
+        "https://weather-app-zr2a.onrender.com/api/login",
+        {
+          email: email.value,
+          password: password.value,
+        }
+      );
       if (response.status === 200) {
-        localStorage.setItem('token', response.data.token); 
         navigate("/profile");
       }
     } catch (err) {
@@ -61,14 +65,14 @@ function SignIn() {
     <div className="form-container">
       <Form onSubmit={handleSubmit}>
         <FormInput
-          controlId="formEmail"
+          controlId="email"
           label="Email address"
           type="email"
           placeholder="Enter your email"
           {...email}
         />
         <FormInput
-          controlId="formPassword"
+          controlId="password"
           label="Password"
           type="password"
           placeholder="Enter your password"
