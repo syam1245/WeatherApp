@@ -150,11 +150,22 @@ body {
 
 .profile-container {
     display: flex;
-    justify-content: center; 
+    flex-direction: column; /* Stack elements vertically */
+    justify-content: center;
     align-items: center;
     min-height: 70vh;
+    text-align: center; /* Center align the text for all child elements */
 }
 
 .profile-action {
+    width: 100%; /* Full width to center the buttons */
     margin-bottom: 10px; /* Adjust as needed for spacing between actions */
 }
+
+/* Center the text of the button */
+.btn {
+    display: block; /* Make the button a block element */
+    width: auto; /* Auto width to fit content */
+    margin: 0 auto; /* Auto margin for horizontal centering */
+}
+
