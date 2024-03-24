@@ -29,6 +29,7 @@ app.use(
           "https://wft-geo-db.p.rapidapi.com",
           "https://api.openweathermap.org",
           "http://localhost:5000",
+          "https://weather-app-zr2a.onrender.com",
           "https://weather-app-ackf.onrender.com",
         ],
       },

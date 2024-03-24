@@ -40,7 +40,7 @@ function SignIn() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "https://weather-app-ackf.onrender.com/api/login",
+        "https://weather-app-zr2a.onrender.com/api/login",
         {
           email: email.value,
           password: password.value,
@@ -50,7 +50,13 @@ function SignIn() {
         navigate("/profile");
       }
     } catch (err) {
-      setError(err.response.data.message);
+      if (err.response && err.response.status === 404) {
+        setError("Wrong email address");
+      } else if (err.response && err.response.status === 401) {
+        setError("Wrong password");
+      } else {
+        setError("An error occurred. Please try again.");
+      }
     }
   };
 

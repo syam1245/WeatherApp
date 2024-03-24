@@ -17,7 +17,7 @@ function SignUpForm() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "https://weather-app-ackf.onrender.com/api/signup",
+        "https://weather-app-zr2a.onrender.com/api/signup",
         { username, email, password }
       );
       if (response.status === 201) {
